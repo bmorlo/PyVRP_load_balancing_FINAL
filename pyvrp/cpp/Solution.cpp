@@ -34,11 +34,18 @@ void Solution::evaluate(ProblemData const &data)
         // @bmorlo
         // Calculates the maximum underutiliation found in one of the routes.
         maxUnderutilization_ = 0;
-        if (maxUnderutilization_ < (Cost)(1000 * (int)(data.vehicleType(route.vehicleType()).capacity - route.delivery())))
+        if (maxUnderutilization_
+            < (Cost)(1000
+                     * (int)(data.vehicleType(route.vehicleType()).capacity
+                             - route.delivery())))
         {
-            maxUnderutilization_ = (Cost)(1000 * (int)(data.vehicleType(route.vehicleType()).capacity - route.delivery()));
+            maxUnderutilization_
+                = (Cost)(1000
+                         * (int)(data.vehicleType(route.vehicleType()).capacity
+                                 - route.delivery()));
+            printf("\nA TEST");
         }
-      
+
         distance_ += route.distance();
         distanceCost_ += route.distanceCost();
         duration_ += route.duration();
