@@ -51,24 +51,23 @@ public:
     {
         using Visits = std::vector<Client>;
 
-        Visits visits_ = {};           // Client visits on this route
-        Distance distance_ = 0;        // Total travel distance on this route
-        Cost distanceCost_ = 0;        // Total cost of travel distance
-        Distance excessDistance_ = 0;  // Excess travel distance
-        Load delivery_ = 0;       // Total delivery amount served on this route
-        Load pickup_ = 0;         // Total pickup amount gathered on this route
-        Load excessLoad_ = 0;     // Excess pickup or delivery demand
-        Duration duration_ = 0;   // Total duration of this route
-        Cost durationCost_ = 0;   // Total cost of route duration
-        Duration timeWarp_ = 0;   // Total time warp on this route
-        Duration travel_ = 0;     // Total *travel* duration on this route
-        Duration service_ = 0;    // Total *service* duration on this route
-        Duration wait_ = 0;       // Total *waiting* duration on this route
-        Duration release_ = 0;    // Release time of this route
-        Duration startTime_ = 0;  // (earliest) start time of this route
-        Duration slack_ = 0;      // Total time slack on this route
-        Cost prizes_ = 0;         // Total value of prizes on this route
-
+        Visits visits_ = {};            // Client visits on this route
+        Distance distance_ = 0;         // Total travel distance on this route
+        Cost distanceCost_ = 0;         // Total cost of travel distance
+        Distance excessDistance_ = 0;   // Excess travel distance
+        Load delivery_ = 0;             // Total delivery amount served on this route
+        Load pickup_ = 0;               // Total pickup amount gathered on this route
+        Load excessLoad_ = 0;           // Excess pickup or delivery demand
+        Duration duration_ = 0;         // Total duration of this route
+        Cost durationCost_ = 0;         // Total cost of route duration
+        Duration timeWarp_ = 0;         // Total time warp on this route
+        Duration travel_ = 0;           // Total *travel* duration on this route
+        Duration service_ = 0;          // Total *service* duration on this route
+        Duration wait_ = 0;             // Total *waiting* duration on this route
+        Duration release_ = 0;          // Release time of this route
+        Duration startTime_ = 0;        // (earliest) start time of this route
+        Duration slack_ = 0;            // Total time slack on this route
+        Cost prizes_ = 0;               // Total value of prizes on this route
         std::pair<double, double> centroid_;  // Route center
         VehicleType vehicleType_;             // Type of vehicle
         Depot depot_;                         // Assigned depot
@@ -258,6 +257,8 @@ private:
     Cost fixedVehicleCost_ = 0;     // Fixed cost of all used vehicles
     Cost prizes_ = 0;               // Total collected prize value
     Cost uncollectedPrizes_ = 0;    // Total uncollected prize value
+    // @bmorlo
+    Cost maxUnderutilization_ = 0;  // Maximum underutilization found in one of the routes
     Duration timeWarp_ = 0;         // Total time warp over all routes
     bool isGroupFeas_ = true;       // Is feasible w.r.t. client groups?
 
@@ -402,6 +403,12 @@ public:
      */
     [[nodiscard]] Cost uncollectedPrizes() const;
 
+    // @bmorlo
+    /**
+     * Returns the maximum underutilization found in one of the routes.
+     */
+    [[nodiscard]] Cost maxUnderutilization() const;
+
     /**
      * Returns the total time warp load over all routes.
      */
@@ -461,6 +468,8 @@ public:
              Cost fixedVehicleCost,
              Cost prizes,
              Cost uncollectedPrizes,
+             // @bmorlo
+             Cost maxUnderutilization,
              Duration timeWarp,
              bool isGroupFeasible,
              Routes const &routes,

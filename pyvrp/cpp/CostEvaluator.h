@@ -31,6 +31,13 @@ concept PrizeCostEvaluatable = CostEvaluatable<T> && requires(T arg) {
     { arg.uncollectedPrizes() } -> std::same_as<Cost>;
 };
 
+// Additional maximum underutilization in a solution. This corresponds to the biggest 
+// delta between the specified capacity and a vehicle's actual utilization.
+template <typename T>
+concept MaxUnderutilizationEvaluatable = CostEvaluatable<T> && requires(T arg) {
+    { arg.maxUnderutilization() } -> std::same_as<Cost>;
+};
+
 // The following methods must be available before a type's delta cost can be
 // evaluated by the CostEvaluator.
 template <typename T>
@@ -200,6 +207,9 @@ Cost CostEvaluator::penalisedCost(T const &arg) const
 
     if constexpr (PrizeCostEvaluatable<T>)
         return cost + arg.uncollectedPrizes();
+    
+    if constexpr (MaxUnderutilizationEvaluatable<T>)
+        return cost + arg.maxUnderutilization();
 
     return cost;
 }

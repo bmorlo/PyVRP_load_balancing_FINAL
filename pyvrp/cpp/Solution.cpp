@@ -30,6 +30,15 @@ void Solution::evaluate(ProblemData const &data)
         // Whole solution statistics.
         numClients_ += route.size();
         prizes_ += route.prizes();
+
+        // @bmorlo
+        // Calculates the maximum underutiliation found in one of the routes.
+        maxUnderutilization_ = 0;
+        if (maxUnderutilization_ < (Cost)(1000 * (int)(data.vehicleType(route.vehicleType()).capacity - route.delivery())))
+        {
+            maxUnderutilization_ = (Cost)(1000 * (int)(data.vehicleType(route.vehicleType()).capacity - route.delivery()));
+        }
+      
         distance_ += route.distance();
         distanceCost_ += route.distanceCost();
         duration_ += route.duration();
@@ -93,6 +102,9 @@ Cost Solution::fixedVehicleCost() const { return fixedVehicleCost_; }
 Cost Solution::prizes() const { return prizes_; }
 
 Cost Solution::uncollectedPrizes() const { return uncollectedPrizes_; }
+
+// @bmorlo
+Cost Solution::maxUnderutilization() const { return maxUnderutilization_; }
 
 Duration Solution::timeWarp() const { return timeWarp_; }
 
@@ -281,6 +293,8 @@ Solution::Solution(size_t numClients,
                    Cost fixedVehicleCost,
                    Cost prizes,
                    Cost uncollectedPrizes,
+                   // @bmorlo
+                   Cost maxUnderutilization,
                    Duration timeWarp,
                    bool isGroupFeasible,
                    Routes const &routes,
@@ -296,6 +310,8 @@ Solution::Solution(size_t numClients,
       fixedVehicleCost_(fixedVehicleCost),
       prizes_(prizes),
       uncollectedPrizes_(uncollectedPrizes),
+      // @bmorlo
+      maxUnderutilization_(maxUnderutilization),
       timeWarp_(timeWarp),
       isGroupFeas_(isGroupFeasible),
       routes_(routes),
