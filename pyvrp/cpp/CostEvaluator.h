@@ -31,6 +31,8 @@ concept PrizeCostEvaluatable = CostEvaluatable<T> && requires(T arg) {
     { arg.uncollectedPrizes() } -> std::same_as<Cost>;
 };
 
+// @bmorlo
+// Not sure how this will be called??? I need to find out how the PriceCostEvaluatable is called.
 // Additional maximum underutilization in a solution. This corresponds to the biggest 
 // delta between the specified capacity and a vehicle's actual utilization.
 template <typename T>
