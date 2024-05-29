@@ -38,12 +38,12 @@ void Solution::evaluate(ProblemData const &data)
         // Calculates the maximum underutiliation found in one of the routes.
         maxUnderutilization_ = 0;
         if (maxUnderutilization_
-            < (Cost)(1000
+            < (Cost)(10000
                      * (int)(data.vehicleType(route.vehicleType()).capacity
                              - route.delivery())))
         {
             maxUnderutilization_
-                = (Cost)(1000
+                = (Cost)(10000
                          * (int)(data.vehicleType(route.vehicleType()).capacity
                                  - route.delivery()));
         }

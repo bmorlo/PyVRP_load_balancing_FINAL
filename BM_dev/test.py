@@ -45,3 +45,5 @@ for frm_idx, frm in enumerate(m.locations):
 res = m.solve(
     stop=MaxRuntime(10), seed=42, display=True, collect_stats=True
 )
+
+print(res)

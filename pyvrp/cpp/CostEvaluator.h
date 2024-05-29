@@ -32,7 +32,6 @@ concept PrizeCostEvaluatable = CostEvaluatable<T> && requires(T arg) {
 };
 
 // @bmorlo
-// Not sure how this will be called??? I need to find out how the PriceCostEvaluatable is called.
 // Additional maximum underutilization in a solution. This corresponds to the biggest 
 // delta between the specified capacity and a vehicle's actual utilization.
 template <typename T>
@@ -211,7 +210,7 @@ Cost CostEvaluator::penalisedCost(T const &arg) const
         return cost + arg.uncollectedPrizes();
     
     // @bmorlo
-    // This is not doing anything right now!
+    // This is not doing anything right now...
     if constexpr (MaxUnderutilizationEvaluatable<T>)
         return cost + arg.maxUnderutilization();
 

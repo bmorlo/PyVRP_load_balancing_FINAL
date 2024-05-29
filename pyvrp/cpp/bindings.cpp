@@ -593,7 +593,6 @@ PYBIND11_MODULE(_pyvrp, m)
                                t[9].cast<pyvrp::Cost>(),      // prizes
                                t[10].cast<pyvrp::Cost>(),     // uncollected
                                // @bmorlo
-                               // Not sure about the position of the argument!!
                                t[11].cast<pyvrp::Cost>(),     // max underutilization
                                t[12].cast<pyvrp::Duration>(),  // time warp
                                t[13].cast<bool>(),         // is group feasible
