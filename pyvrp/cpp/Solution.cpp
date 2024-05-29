@@ -8,6 +8,9 @@
 #include <numeric>
 #include <unordered_map>
 
+// @bmorlo
+#include <iostream>
+
 using pyvrp::Cost;
 using pyvrp::Distance;
 using pyvrp::Duration;
@@ -35,16 +38,16 @@ void Solution::evaluate(ProblemData const &data)
         // Calculates the maximum underutiliation found in one of the routes.
         maxUnderutilization_ = 0;
         if (maxUnderutilization_
-            < (Cost)(1000
+            < (Cost)(10000
                      * (int)(data.vehicleType(route.vehicleType()).capacity
                              - route.delivery())))
         {
             maxUnderutilization_
-                = (Cost)(1000
+                = (Cost)(10000
                          * (int)(data.vehicleType(route.vehicleType()).capacity
                                  - route.delivery()));
-            printf("\n",maxUnderutilization_,"\n");
         }
+        std::cout << "maxUnderutilization is equal to " << maxUnderutilization_;
 
         distance_ += route.distance();
         distanceCost_ += route.distanceCost();
