@@ -203,11 +203,14 @@ Cost CostEvaluator::penalisedCost(T const &arg) const
                       + (!arg.empty() ? arg.fixedVehicleCost() : 0)
                       + loadPenalty(arg.excessLoad(), 0)
                       + twPenalty(arg.timeWarp())
-                      + distPenalty(arg.excessDistance(), 0);
+                      + distPenalty(arg.excessDistance(), 0)
+                      + arg.maxUnderutilization(),
 
     if constexpr (PrizeCostEvaluatable<T>)
         return cost + arg.uncollectedPrizes();
     
+    // @bmorlo
+    // This is not doing anything right now!
     if constexpr (MaxUnderutilizationEvaluatable<T>)
         return cost + arg.maxUnderutilization();
 
