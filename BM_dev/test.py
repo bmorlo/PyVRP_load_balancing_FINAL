@@ -43,7 +43,5 @@ for frm_idx, frm in enumerate(m.locations):
         m.add_edge(frm, to, distance=distance)
 
 res = m.solve(
-    stop=MaxRuntime(30), seed=42, display=True, collect_stats=True
-)  # one second
-best = res.best
-print(f"\n{res} Best: {best}")
+    stop=MaxRuntime(10), seed=42, display=True, collect_stats=True
+)

@@ -43,7 +43,7 @@ void Solution::evaluate(ProblemData const &data)
                 = (Cost)(1000
                          * (int)(data.vehicleType(route.vehicleType()).capacity
                                  - route.delivery()));
-            printf("\nA TEST");
+            printf("\n",maxUnderutilization_,"\n");
         }
 
         distance_ += route.distance();
