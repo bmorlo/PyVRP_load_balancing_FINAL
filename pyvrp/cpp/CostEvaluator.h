@@ -199,8 +199,11 @@ Cost CostEvaluator::penalisedCost(T const &arg) const
                       + distPenalty(arg.excessDistance(), 0);
 
     // @bmorlo
-    if constexpr (PrizeCostEvaluatable<T>)
+    if constexpr (PrizeCostEvaluatable<T>){
+        std::cout << "\n\nDistance Cost:" << arg.distanceCost();
+        std::cout << "\n\nUnderutilization Penalty:" << arg.maxUnderutiliation();
         return cost + arg.uncollectedPrizes() + arg.maxUnderutilization();
+    }
 
     return cost;
 }
