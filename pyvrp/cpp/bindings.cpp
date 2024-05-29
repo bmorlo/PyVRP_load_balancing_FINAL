@@ -588,10 +588,11 @@ PYBIND11_MODULE(_pyvrp, m)
                                t[8].cast<pyvrp::Cost>(),      // fixed veh cost
                                t[9].cast<pyvrp::Cost>(),      // prizes
                                t[10].cast<pyvrp::Cost>(),     // uncollected
-                               t[11].cast<pyvrp::Duration>(),  // time warp
-                               t[12].cast<bool>(),         // is group feasible
-                               t[13].cast<Routes>(),       // routes
-                               t[14].cast<Neighbours>());  // neighbours
+                               t[11].cast<pyvrp::Cost>(),     // maxUnderutilized
+                               t[12].cast<pyvrp::Duration>(),  // time warp
+                               t[13].cast<bool>(),         // is group feasible
+                               t[14].cast<Routes>(),       // routes
+                               t[15].cast<Neighbours>());  // neighbours
 
                 return sol;
             }))
