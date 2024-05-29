@@ -28,6 +28,10 @@ void Solution::evaluate(ProblemData const &data)
     for (auto const &client : data.clients())
         allPrizes += client.prize;
 
+    // @bmorlo
+    // Is this really needed?
+    maxUnderutilization_ = 0;
+
     for (auto const &route : routes_)
     {
         // Whole solution statistics.
@@ -36,7 +40,6 @@ void Solution::evaluate(ProblemData const &data)
 
         // @bmorlo
         // Calculates the maximum underutiliation found in one of the routes.
-        maxUnderutilization_ = 0;
         if (maxUnderutilization_
             < (Cost)(100000
                      * (int)(data.vehicleType(route.vehicleType()).capacity
