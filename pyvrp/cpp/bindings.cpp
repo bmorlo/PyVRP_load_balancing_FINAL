@@ -544,6 +544,8 @@ PYBIND11_MODULE(_pyvrp, m)
         .def("uncollected_prizes",
              &Solution::uncollectedPrizes,
              DOC(pyvrp, Solution, uncollectedPrizes))
+          // @bmorlo
+        .def("max_underutilization", &Solution::maxUnderutilization, DOC(pyvrp, Solution, maxUnderutilization))
         .def("__copy__", [](Solution const &sol) { return Solution(sol); })
         .def(
             "__deepcopy__",
@@ -566,6 +568,8 @@ PYBIND11_MODULE(_pyvrp, m)
                                       sol.fixedVehicleCost(),
                                       sol.prizes(),
                                       sol.uncollectedPrizes(),
+                                      // @bmorlo
+                                      sol.maxUnderutilization(),
                                       sol.timeWarp(),
                                       sol.isGroupFeasible(),
                                       sol.routes(),
@@ -588,7 +592,8 @@ PYBIND11_MODULE(_pyvrp, m)
                                t[8].cast<pyvrp::Cost>(),      // fixed veh cost
                                t[9].cast<pyvrp::Cost>(),      // prizes
                                t[10].cast<pyvrp::Cost>(),     // uncollected
-                               t[11].cast<pyvrp::Cost>(),     // maxUnderutilized
+                               // @bmorlo
+                               t[11].cast<pyvrp::Cost>(),     // max underutilization
                                t[12].cast<pyvrp::Duration>(),  // time warp
                                t[13].cast<bool>(),         // is group feasible
                                t[14].cast<Routes>(),       // routes
