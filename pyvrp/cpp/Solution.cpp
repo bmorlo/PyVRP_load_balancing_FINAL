@@ -47,7 +47,6 @@ void Solution::evaluate(ProblemData const &data)
                          * (int)(data.vehicleType(route.vehicleType()).capacity
                                  - route.delivery()));
         }
-        std::cout << "maxUnderutilization is equal to " << maxUnderutilization_;
 
         distance_ += route.distance();
         distanceCost_ += route.distanceCost();
