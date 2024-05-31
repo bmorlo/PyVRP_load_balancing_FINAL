@@ -214,10 +214,6 @@ ProblemData::VehicleType::VehicleType(size_t numAvailable,
 
     if (capacity < 0)
         throw std::invalid_argument("capacity must be >= 0.");
-    
-    // @bmorlo
-    if (scaling_parameter_for_load_balancing < 0)
-        throw std::invalid_argument("scaling_parameter_for_load_balancing must be >= 0.");
 
     if (twEarly > twLate)
         throw std::invalid_argument("tw_early must be <= tw_late.");
