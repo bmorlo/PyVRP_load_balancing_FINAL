@@ -38,12 +38,12 @@ void Solution::evaluate(ProblemData const &data)
         // @bmorlo
         // Calculates the maximum underutiliation found in one of the routes.
         if (maxUnderutilization_
-            < (Cost)(data.vehicleType(route.vehicleType()).scaling_parameter_for_load_balancing
+            < (Cost)(data.vehicleType(route.vehicleType()).scalingParameterLoadBalancing
                      * (size_t)(data.vehicleType(route.vehicleType()).capacity
                              - route.delivery())))
         {
             maxUnderutilization_
-                = (Cost)(data.vehicleType(route.vehicleType()).scaling_parameter_for_load_balancing
+                = (Cost)(data.vehicleType(route.vehicleType()).scalingParameterLoadBalancing
                          * (size_t)(data.vehicleType(route.vehicleType()).capacity
                                  - route.delivery()));
         }

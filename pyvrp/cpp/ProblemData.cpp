@@ -183,7 +183,7 @@ ProblemData::Depot::~Depot() { delete[] name; }
 ProblemData::VehicleType::VehicleType(size_t numAvailable,
                                       Load capacity,
                                       // @bmorlo
-                                      size_t scaling_parameter_for_load_balancing,
+                                      size_t scalingParameterLoadBalancing,
                                       size_t depot,
                                       Cost fixedCost,
                                       Duration twEarly,
@@ -198,7 +198,7 @@ ProblemData::VehicleType::VehicleType(size_t numAvailable,
       depot(depot),
       capacity(capacity),
       // @bmorlo
-      scaling_parameter_for_load_balancing(scaling_parameter_for_load_balancing),
+      scalingParameterLoadBalancing(scalingParameterLoadBalancing),
       twEarly(twEarly),
       twLate(twLate),
       maxDuration(maxDuration),
@@ -242,7 +242,7 @@ ProblemData::VehicleType::VehicleType(VehicleType const &vehicleType)
       depot(vehicleType.depot),
       capacity(vehicleType.capacity),
       // @bmorlo
-      scaling_parameter_for_load_balancing(vehicleType.scaling_parameter_for_load_balancing),
+      scalingParameterLoadBalancing(vehicleType.scalingParameterLoadBalancing),
       twEarly(vehicleType.twEarly),
       twLate(vehicleType.twLate),
       maxDuration(vehicleType.maxDuration),
@@ -260,7 +260,7 @@ ProblemData::VehicleType::VehicleType(VehicleType &&vehicleType)
       depot(vehicleType.depot),
       capacity(vehicleType.capacity),
       // @bmorlo
-      scaling_parameter_for_load_balancing(vehicleType.scaling_parameter_for_load_balancing),
+      scalingParameterLoadBalancing(vehicleType.scalingParameterLoadBalancing),
       twEarly(vehicleType.twEarly),
       twLate(vehicleType.twLate),
       maxDuration(vehicleType.maxDuration),

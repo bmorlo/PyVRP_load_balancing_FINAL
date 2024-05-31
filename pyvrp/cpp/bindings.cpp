@@ -154,6 +154,8 @@ PYBIND11_MODULE(_pyvrp, m)
         m, "VehicleType", DOC(pyvrp, ProblemData, VehicleType))
         .def(py::init<size_t,
                       pyvrp::Load,
+                      // @bmorlo
+                      size_t,
                       size_t,
                       pyvrp::Cost,
                       pyvrp::Duration,
@@ -184,7 +186,7 @@ PYBIND11_MODULE(_pyvrp, m)
         .def_readonly("num_available", &ProblemData::VehicleType::numAvailable)
         .def_readonly("capacity", &ProblemData::VehicleType::capacity)
         // @bmorlo
-        .def_readonly("scaling_parameter_for_load_balancing", &ProblemData::VehicleType::scaling_parameter_for_load_balancing)
+        .def_readonly("scaling_parameter_for_load_balancing", &ProblemData::VehicleType::scalingParameterLoadBalancing)
         .def_readonly("depot", &ProblemData::VehicleType::depot)
         .def_readonly("fixed_cost", &ProblemData::VehicleType::fixedCost)
         .def_readonly("tw_early", &ProblemData::VehicleType::twEarly)
