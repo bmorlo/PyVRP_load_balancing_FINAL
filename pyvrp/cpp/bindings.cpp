@@ -166,6 +166,8 @@ PYBIND11_MODULE(_pyvrp, m)
                       char const *>(),
              py::arg("num_available") = 1,
              py::arg("capacity") = 0,
+             // @bmorlo
+             py::arg("scaling_parameter_for_load_balancing") = 0,
              py::arg("depot") = 0,
              py::arg("fixed_cost") = 0,
              py::arg("tw_early") = 0,
@@ -181,6 +183,8 @@ PYBIND11_MODULE(_pyvrp, m)
              py::arg("name") = "")
         .def_readonly("num_available", &ProblemData::VehicleType::numAvailable)
         .def_readonly("capacity", &ProblemData::VehicleType::capacity)
+        // @bmorlo
+        .def_readonly("scaling_parameter_for_load_balancing", &ProblemData::VehicleType::scaling_parameter_for_load_balancing)
         .def_readonly("depot", &ProblemData::VehicleType::depot)
         .def_readonly("fixed_cost", &ProblemData::VehicleType::fixedCost)
         .def_readonly("tw_early", &ProblemData::VehicleType::twEarly)
@@ -593,7 +597,7 @@ PYBIND11_MODULE(_pyvrp, m)
                                t[9].cast<pyvrp::Cost>(),      // prizes
                                t[10].cast<pyvrp::Cost>(),     // uncollected
                                // @bmorlo
-                               t[11].cast<pyvrp::Cost>(),     // max underutilization
+                               t[11].cast<pyvrp::Cost>(),     // maximum underutilization
                                t[12].cast<pyvrp::Duration>(),  // time warp
                                t[13].cast<bool>(),         // is group feasible
                                t[14].cast<Routes>(),       // routes

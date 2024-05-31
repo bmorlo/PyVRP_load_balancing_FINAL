@@ -402,6 +402,9 @@ public:
         size_t const numAvailable;    // Available vehicles of this type
         size_t const depot;           // Departure and return depot location
         Load const capacity;          // This type's vehicle capacity
+        // @bmorlo
+        size_t const scaling_parameter_for_load_balancing;  // A scaling parameter for load balancing. 
+                                      // The same vlaue Should be used across all vehicle types.
         Duration const twEarly;       // Start of shift
         Duration const twLate;        // End of shift
         Duration const maxDuration;   // Maximum route duration
@@ -414,6 +417,8 @@ public:
 
         VehicleType(size_t numAvailable = 1,
                     Load capacity = 0,
+                    // @bmorlo
+                    size_t scaling_parameter_for_load_balancing = 0,
                     size_t depot = 0,
                     Cost fixedCost = 0,
                     Duration twEarly = 0,

@@ -182,6 +182,8 @@ ProblemData::Depot::~Depot() { delete[] name; }
 
 ProblemData::VehicleType::VehicleType(size_t numAvailable,
                                       Load capacity,
+                                      // @bmorlo
+                                      size_t scaling_parameter_for_load_balancing,
                                       size_t depot,
                                       Cost fixedCost,
                                       Duration twEarly,
@@ -195,6 +197,8 @@ ProblemData::VehicleType::VehicleType(size_t numAvailable,
     : numAvailable(numAvailable),
       depot(depot),
       capacity(capacity),
+      // @bmorlo
+      scaling_parameter_for_load_balancing(scaling_parameter_for_load_balancing),
       twEarly(twEarly),
       twLate(twLate),
       maxDuration(maxDuration),
@@ -210,6 +214,10 @@ ProblemData::VehicleType::VehicleType(size_t numAvailable,
 
     if (capacity < 0)
         throw std::invalid_argument("capacity must be >= 0.");
+    
+    // @bmorlo
+    if (scaling_parameter_for_load_balancing < 0)
+        throw std::invalid_argument("scaling_parameter_for_load_balancing must be >= 0.");
 
     if (twEarly > twLate)
         throw std::invalid_argument("tw_early must be <= tw_late.");
@@ -237,6 +245,8 @@ ProblemData::VehicleType::VehicleType(VehicleType const &vehicleType)
     : numAvailable(vehicleType.numAvailable),
       depot(vehicleType.depot),
       capacity(vehicleType.capacity),
+      // @bmorlo
+      scaling_parameter_for_load_balancing(vehicleType.scaling_parameter_for_load_balancing),
       twEarly(vehicleType.twEarly),
       twLate(vehicleType.twLate),
       maxDuration(vehicleType.maxDuration),
@@ -253,6 +263,8 @@ ProblemData::VehicleType::VehicleType(VehicleType &&vehicleType)
     : numAvailable(vehicleType.numAvailable),
       depot(vehicleType.depot),
       capacity(vehicleType.capacity),
+      // @bmorlo
+      scaling_parameter_for_load_balancing(vehicleType.scaling_parameter_for_load_balancing),
       twEarly(vehicleType.twEarly),
       twLate(vehicleType.twLate),
       maxDuration(vehicleType.maxDuration),

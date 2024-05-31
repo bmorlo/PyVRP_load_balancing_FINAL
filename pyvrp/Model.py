@@ -315,6 +315,8 @@ class Model:
         self,
         num_available: int = 1,
         capacity: int = 0,
+        # @bmorlo
+        scaling_parameter_for_load_balancing: int = 0,
         depot: Optional[Depot] = None,
         fixed_cost: int = 0,
         tw_early: int = 0,
@@ -359,6 +361,8 @@ class Model:
         vehicle_type = VehicleType(
             num_available=num_available,
             capacity=capacity,
+            # @bmorlo
+            scaling_parameter_for_load_balancing=scaling_parameter_for_load_balancing,
             depot=depot_idx,
             fixed_cost=fixed_cost,
             tw_early=tw_early,

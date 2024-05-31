@@ -93,6 +93,8 @@ class VehicleType:
     num_available: int
     depot: int
     capacity: int
+    # @bmorlo
+    scaling_parameter_for_load_balancing: int
     tw_early: int
     tw_late: int
     max_duration: int
@@ -106,6 +108,8 @@ class VehicleType:
         self,
         num_available: int = 1,
         capacity: int = 0,
+        # @bmorlo
+        scaling_parameter_for_load_balancing: int = 0,
         depot: int = 0,
         tw_early: int = 0,
         tw_late: int = ...,
