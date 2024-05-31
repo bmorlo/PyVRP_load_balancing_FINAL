@@ -21,10 +21,6 @@ COORDS = [
     (798, 640),  # location 16
 ]
 
-# TODO: He does not use my new lines of code...
-# I need to build the python bindins.
-
-
 m = Model()
 
 for k in range(3):

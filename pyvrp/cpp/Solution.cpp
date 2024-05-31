@@ -29,9 +29,6 @@ void Solution::evaluate(ProblemData const &data)
         allPrizes += client.prize;
 
     // @bmorlo
-    // Is this really needed?
-    maxUnderutilization_ = 0;
-
     for (auto const &route : routes_)
     {
         // Whole solution statistics.
