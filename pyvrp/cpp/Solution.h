@@ -265,7 +265,7 @@ private:
     Distance excessDistance_ = 0;   // Total excess distance over all routes
     Load excessLoad_ = 0;           // Total excess load over all routes
     // @bmorlo
-    Load underUtilization_ = 0;     // Minimum utilization found in one of the routes
+    Load underUtilization_ = 0;     // Maximum underutilization found in one of the routes
     Cost fixedVehicleCost_ = 0;     // Fixed cost of all used vehicles
     Cost prizes_ = 0;               // Total collected prize value
     Cost uncollectedPrizes_ = 0;    // Total uncollected prize value
