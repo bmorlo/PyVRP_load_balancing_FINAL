@@ -313,7 +313,7 @@ bool CostEvaluator::deltaCost(Cost &out,
     out -= underUtilizationPenalty(uRoute->load(), uRoute->capacity());
     out -= underUtilizationPenalty(vRoute->load(), vRoute->capacity());
 
-    std::out << "\ndeltaCost was called!\n"
+    std::out << "\ndeltaCost was called!\n";
 
     out -= uRoute->durationCost();
     out -= twPenalty(uRoute->timeWarp());
