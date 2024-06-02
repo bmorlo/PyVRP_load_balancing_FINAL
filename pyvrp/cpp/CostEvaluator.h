@@ -249,7 +249,7 @@ bool CostEvaluator::deltaCost(Cost &out, T<Args...> const &proposal) const
         out -= loadPenalty(route->load(), route->capacity());
     }
 
-    // @bmorlo
+    // @bmorlo: TODO - should I put this in the if clause? I don't want to skip the load calculation...
     out -= underUtilizationPenalty(route->load(), route->capacity());
 
     out -= route->durationCost();
