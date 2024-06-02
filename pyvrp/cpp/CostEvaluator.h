@@ -188,7 +188,6 @@ Cost CostEvaluator::underUtilizationPenalty(Load load, Load capacity) const
 {
     auto const underUtilization = std::max<Load>(capacity - load, 0);
     return static_cast<Cost>(underUtilization) * (Cost)(10000);
-    std::cout << "Test";
 }
 
 Cost CostEvaluator::twPenalty([[maybe_unused]] Duration timeWarp) const
@@ -214,11 +213,9 @@ Cost CostEvaluator::penalisedCost(T const &arg) const
                       + (!arg.empty() ? arg.fixedVehicleCost() : 0)
                       + loadPenalty(arg.excessLoad(), 0)
                       // @bmorlo
-                      + underUtilizationPenalty(arg.underUtilization(), 0)
+                      + underUtilizationPenalty(arg.underUtilization(), 7)
                       + twPenalty(arg.timeWarp())
                       + distPenalty(arg.excessDistance(), 0);
-
-    std::cout << "Test2";
 
     if constexpr (PrizeCostEvaluatable<T>){
         return cost + arg.uncollectedPrizes();
