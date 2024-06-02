@@ -183,7 +183,6 @@ Cost CostEvaluator::loadPenalty(Load load, Load capacity) const
 }
 
 // @bmorlo
-// Why do I need this 0 here?
 Cost CostEvaluator::underUtilizationPenalty(Load load, Load capacity) const
 {
     auto const underUtilization = std::max<Load>(capacity - load, 0);
@@ -312,8 +311,6 @@ bool CostEvaluator::deltaCost(Cost &out,
     // TODO: Why do we subtract something from "out"?
     out -= underUtilizationPenalty(uRoute->load(), uRoute->capacity());
     out -= underUtilizationPenalty(vRoute->load(), vRoute->capacity());
-
-    std::cout << "\ndeltaCost was called!\n";
 
     out -= uRoute->durationCost();
     out -= twPenalty(uRoute->timeWarp());
