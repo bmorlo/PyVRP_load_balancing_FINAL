@@ -218,6 +218,8 @@ Cost CostEvaluator::penalisedCost(T const &arg) const
                       + twPenalty(arg.timeWarp())
                       + distPenalty(arg.excessDistance(), 0);
 
+    std::cout << "Test2"
+
     if constexpr (PrizeCostEvaluatable<T>){
         return cost + arg.uncollectedPrizes();
     }
