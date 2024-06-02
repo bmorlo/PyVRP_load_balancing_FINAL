@@ -17,6 +17,8 @@ concept CostEvaluatable = requires(T arg) {
     { arg.durationCost() } -> std::same_as<Cost>;
     { arg.fixedVehicleCost() } -> std::same_as<Cost>;
     { arg.excessLoad() } -> std::same_as<Load>;
+    // @bmorlo
+    { arg.underUtilization() } -> std::same_as<Load>;
     { arg.excessDistance() } -> std::same_as<Distance>;
     { arg.timeWarp() } -> std::same_as<Duration>;
     { arg.empty() } -> std::same_as<bool>;
@@ -73,6 +75,13 @@ public:
      * capacity.
      */
     [[nodiscard]] inline Cost loadPenalty(Load load, Load capacity) const;
+
+    // @bmorlo
+    /**
+     * Computes the underutilization penalty for the given load and vehicle
+     * capacity.
+     */
+    [[nodiscard]] inline Cost underUtilizationPenalty(Load load, Load capacity) const;
 
     /**
      * Computes the time warp penalty for the given time warp.
@@ -173,6 +182,14 @@ Cost CostEvaluator::loadPenalty(Load load, Load capacity) const
     return static_cast<Cost>(excessLoad) * loadPenalty_;
 }
 
+// @bmorlo
+// Why do I need this 0 here?
+Cost CostEvaluator::underUtilizationPenalty(Load load, Load capacity) const
+{
+    auto const underUtilization = std::max<Load>(capacity - load, 0);
+    return static_cast<Cost>(underUtilization) * (Cost)(100);
+}
+
 Cost CostEvaluator::twPenalty([[maybe_unused]] Duration timeWarp) const
 {
 #ifdef PYVRP_NO_TIME_WINDOWS
@@ -195,14 +212,13 @@ Cost CostEvaluator::penalisedCost(T const &arg) const
     auto const cost = arg.distanceCost() + arg.durationCost()
                       + (!arg.empty() ? arg.fixedVehicleCost() : 0)
                       + loadPenalty(arg.excessLoad(), 0)
+                      // @bmorlo
+                      + underUtilizationPenalty(arg.underUtilization(), 0)
                       + twPenalty(arg.timeWarp())
                       + distPenalty(arg.excessDistance(), 0);
 
-    // @bmorlo
     if constexpr (PrizeCostEvaluatable<T>){
-        std::cout << "\n\nDistance Cost:" << arg.distanceCost();
-        std::cout << "\n\nUnderutilization Penalty:" << arg.maxUnderutilization();
-        return cost + arg.uncollectedPrizes() + arg.maxUnderutilization();
+        return cost + arg.uncollectedPrizes();
     }
 
     return cost;
@@ -230,7 +246,11 @@ bool CostEvaluator::deltaCost(Cost &out, T<Args...> const &proposal) const
     out -= distPenalty(route->distance(), route->maxDistance());
 
     if constexpr (!skipLoad)
+    {
         out -= loadPenalty(route->load(), route->capacity());
+        // @bmorlo
+        out -= underUtilizationPenalty(route->load(), route->capacity());
+    }
 
     out -= route->durationCost();
     out -= twPenalty(route->timeWarp());
@@ -247,6 +267,8 @@ bool CostEvaluator::deltaCost(Cost &out, T<Args...> const &proposal) const
     {
         auto const load = proposal.loadSegment();
         out += loadPenalty(load.load(), route->capacity());
+        // @bmorlo
+        out += underUtilizationPenalty(load.load(), route->capacity());
     }
 
     auto const duration = proposal.durationSegment();
@@ -281,6 +303,11 @@ bool CostEvaluator::deltaCost(Cost &out,
     {
         out -= loadPenalty(uRoute->load(), uRoute->capacity());
         out -= loadPenalty(vRoute->load(), vRoute->capacity());
+
+        // @bmorlo
+        // TODO: Why do we subtract something from "out"?
+        out -= underUtilizationPenalty(uRoute->load(), uRoute->capacity());
+        out -= underUtilizationPenalty(vRoute->load(), vRoute->capacity());
     }
 
     out -= uRoute->durationCost();
@@ -305,9 +332,13 @@ bool CostEvaluator::deltaCost(Cost &out,
     {
         auto const uLoad = uProposal.loadSegment();
         out += loadPenalty(uLoad.load(), uRoute->capacity());
+        // @bmorlo
+        out += underUtilizationPenalty(uLoad.load(), uRoute->capacity());
 
         auto const vLoad = vProposal.loadSegment();
         out += loadPenalty(vLoad.load(), vRoute->capacity());
+        // @bmorlo
+        out += underUtilizationPenalty(vLoad.load(), vRoute->capacity());
     }
 
     if constexpr (!exact)

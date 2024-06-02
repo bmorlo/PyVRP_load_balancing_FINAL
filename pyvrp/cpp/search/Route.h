@@ -271,6 +271,13 @@ public:
      */
     [[nodiscard]] inline Load excessLoad() const;
 
+    // @bmorlo
+    /**
+     * Underutilization of the
+     * vehicle's capacity.
+     */
+    [[nodiscard]] inline Load underUtilization() const;
+
     /**
      * Travel distance in excess of the assigned vehicle type's maximum
      * distance constraint.
@@ -617,6 +624,13 @@ Load Route::excessLoad() const
 {
     assert(!dirty);
     return std::max<Load>(load() - capacity(), 0);
+}
+
+// @bmorlo
+Load Route::underUtilization() const
+{
+    assert(!dirty);
+    return std::max<Load>(capacity() - load(), 0);
 }
 
 Distance Route::excessDistance() const

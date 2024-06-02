@@ -58,6 +58,8 @@ public:
         Load delivery_ = 0;             // Total delivery amount served on this route
         Load pickup_ = 0;               // Total pickup amount gathered on this route
         Load excessLoad_ = 0;           // Excess pickup or delivery demand
+        // @bmorlo
+        Load underUtilization_ = 0;     // Underutilization of a route
         Duration duration_ = 0;         // Total duration of this route
         Cost durationCost_ = 0;         // Total cost of route duration
         Duration timeWarp_ = 0;         // Total time warp on this route
@@ -114,6 +116,12 @@ public:
          * Pickup or delivery load in excess of the vehicle's capacity.
          */
         [[nodiscard]] Load excessLoad() const;
+
+        // @bmorlo
+        /**
+         * Underutilization of the vehicle's capacity.
+         */
+        [[nodiscard]] Load underUtilization() const;
 
         /**
          * Total route duration, including travel, service and waiting time.
@@ -227,6 +235,8 @@ public:
               Load delivery,
               Load pickup,
               Load excessLoad,
+              // @bmorlo
+              Load underUtilization,
               Duration duration,
               Cost durationCost,
               Duration timeWarp,
@@ -254,11 +264,11 @@ private:
     Cost durationCost_ = 0;         // Total cost of all routes' duration
     Distance excessDistance_ = 0;   // Total excess distance over all routes
     Load excessLoad_ = 0;           // Total excess load over all routes
+    // @bmorlo
+    Load underUtilization_ = 0;     // Minimum utilization found in one of the routes
     Cost fixedVehicleCost_ = 0;     // Fixed cost of all used vehicles
     Cost prizes_ = 0;               // Total collected prize value
     Cost uncollectedPrizes_ = 0;    // Total uncollected prize value
-    // @bmorlo
-    Cost maxUnderutilization_ = 0;  // Maximum underutilization found in one of the routes
     Duration timeWarp_ = 0;         // Total time warp over all routes
     bool isGroupFeas_ = true;       // Is feasible w.r.t. client groups?
 
@@ -382,6 +392,12 @@ public:
      */
     [[nodiscard]] Load excessLoad() const;
 
+     // @bmorlo
+    /**
+     * Returns the minimum utilization found in one of the routes.
+     */
+    [[nodiscard]] Load underUtilization() const;
+
     /**
      * Returns the total distance in excess of maximum duration constraints,
      * over all routes.
@@ -402,12 +418,6 @@ public:
      * Total prize value of all clients not visited in this solution.
      */
     [[nodiscard]] Cost uncollectedPrizes() const;
-
-    // @bmorlo
-    /**
-     * Returns the maximum underutilization found in one of the routes.
-     */
-    [[nodiscard]] Cost maxUnderutilization() const;
 
     /**
      * Returns the total time warp load over all routes.
@@ -465,11 +475,11 @@ public:
              Cost durationCost,
              Distance excessDistance,
              Load excessLoad,
+             // @bmorlo
+             Load underUtilization,
              Cost fixedVehicleCost,
              Cost prizes,
              Cost uncollectedPrizes,
-             // @bmorlo
-             Cost maxUnderutilization,
              Duration timeWarp,
              bool isGroupFeasible,
              Routes const &routes,
@@ -489,6 +499,8 @@ template <> struct std::hash<pyvrp::Solution>
         res = res * 31 + std::hash<size_t>()(sol.numRoutes());
         res = res * 31 + std::hash<pyvrp::Distance>()(sol.distance());
         res = res * 31 + std::hash<pyvrp::Load>()(sol.excessLoad());
+        // @bmorlo
+        res = res * 31 + std::hash<pyvrp::Load>()(sol.underUtilization());
         res = res * 31 + std::hash<pyvrp::Duration>()(sol.timeWarp());
 
         return res;

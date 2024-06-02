@@ -250,6 +250,8 @@ PYBIND11_MODULE(_search, m)
         .def("fixed_vehicle_cost", &Route::fixedVehicleCost)
         .def("load", &Route::load)
         .def("excess_load", &Route::excessLoad)
+        // @bmorlo
+        .def("underutilization", &Route::underUtilization)
         .def("excess_distance", &Route::excessDistance)
         .def("distance", &Route::distance)
         .def("distance_cost", &Route::distanceCost)

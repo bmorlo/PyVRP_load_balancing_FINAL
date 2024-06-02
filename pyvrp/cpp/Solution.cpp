@@ -34,20 +34,6 @@ void Solution::evaluate(ProblemData const &data)
         // Whole solution statistics.
         numClients_ += route.size();
         prizes_ += route.prizes();
-
-        // @bmorlo
-        // Calculates the maximum underutiliation found in one of the routes.
-        if (maxUnderutilization_
-            < (Cost)(data.vehicleType(route.vehicleType()).scalingParameterLoadBalancing
-                     * (size_t)(data.vehicleType(route.vehicleType()).capacity
-                             - route.delivery())))
-        {
-            maxUnderutilization_
-                = (Cost)(data.vehicleType(route.vehicleType()).scalingParameterLoadBalancing
-                         * (size_t)(data.vehicleType(route.vehicleType()).capacity
-                                 - route.delivery()));
-        }
-
         distance_ += route.distance();
         distanceCost_ += route.distanceCost();
         duration_ += route.duration();
@@ -55,6 +41,15 @@ void Solution::evaluate(ProblemData const &data)
         excessDistance_ += route.excessDistance();
         timeWarp_ += route.timeWarp();
         excessLoad_ += route.excessLoad();
+
+        // @bmorlo
+        // Stores the maximum underutilization found in one of the routes.
+        // We keep the name consistent with the 'Route' object even though here (for the 'Solution' object) it should be maxUnderutilization...
+        if (underUtilization_ > data.vehicleType(route.vehicleType()).capacity - route.delivery())
+        {
+            underUtilization_ = data.vehicleType(route.vehicleType()).capacity - route.delivery();
+        }
+
         fixedVehicleCost_ += data.vehicleType(route.vehicleType()).fixedCost;
     }
 
@@ -104,6 +99,9 @@ Cost Solution::durationCost() const { return durationCost_; }
 
 Load Solution::excessLoad() const { return excessLoad_; }
 
+// @bmorlo
+Load Solution::underUtilization() const { return underUtilization_; }
+
 Distance Solution::excessDistance() const { return excessDistance_; }
 
 Cost Solution::fixedVehicleCost() const { return fixedVehicleCost_; }
@@ -111,9 +109,6 @@ Cost Solution::fixedVehicleCost() const { return fixedVehicleCost_; }
 Cost Solution::prizes() const { return prizes_; }
 
 Cost Solution::uncollectedPrizes() const { return uncollectedPrizes_; }
-
-// @bmorlo
-Cost Solution::maxUnderutilization() const { return maxUnderutilization_; }
 
 Duration Solution::timeWarp() const { return timeWarp_; }
 
@@ -139,6 +134,8 @@ bool Solution::operator==(Solution const &other) const
                               && distanceCost_ == other.distanceCost_
                               && durationCost_ == other.durationCost_
                               && excessLoad_ == other.excessLoad_
+                              // @bmorlo
+                              && underUtilization_ == other.underUtilization_
                               && timeWarp_ == other.timeWarp_
                               && isGroupFeas_ == other.isGroupFeas_
                               && routes_.size() == other.routes_.size();
@@ -299,11 +296,11 @@ Solution::Solution(size_t numClients,
                    Cost durationCost,
                    Distance excessDistance,
                    Load excessLoad,
+                   // @bmorlo
+                   Load underUtilization,
                    Cost fixedVehicleCost,
                    Cost prizes,
                    Cost uncollectedPrizes,
-                   // @bmorlo
-                   Cost maxUnderutilization,
                    Duration timeWarp,
                    bool isGroupFeasible,
                    Routes const &routes,
@@ -316,11 +313,11 @@ Solution::Solution(size_t numClients,
       durationCost_(durationCost),
       excessDistance_(excessDistance),
       excessLoad_(excessLoad),
+      // @bmorlo
+      underUtilization_(underUtilization),
       fixedVehicleCost_(fixedVehicleCost),
       prizes_(prizes),
       uncollectedPrizes_(uncollectedPrizes),
-      // @bmorlo
-      maxUnderutilization_(maxUnderutilization),
       timeWarp_(timeWarp),
       isGroupFeas_(isGroupFeasible),
       routes_(routes),
@@ -389,6 +386,8 @@ Solution::Route::Route(ProblemData const &data,
     delivery_ = ls.delivery();
     pickup_ = ls.pickup();
     excessLoad_ = std::max<Load>(ls.load() - vehType.capacity, 0);
+    //@bmorlo
+    underUtilization_ = std::max<Load>(vehType.capacity - ls.load(), 0);
 
     ds = DurationSegment::merge(durations, ds, depotDS);
     duration_ = ds.duration();
@@ -406,6 +405,8 @@ Solution::Route::Route(Visits visits,
                        Load delivery,
                        Load pickup,
                        Load excessLoad,
+                       // @bmorlo
+                       Load underUtilization,
                        Duration duration,
                        Cost durationCost,
                        Duration timeWarp,
@@ -426,6 +427,8 @@ Solution::Route::Route(Visits visits,
       delivery_(delivery),
       pickup_(pickup),
       excessLoad_(excessLoad),
+      // @bmorlo
+      underUtilization_(underUtilization),
       duration_(duration),
       durationCost_(durationCost),
       timeWarp_(timeWarp),
@@ -468,6 +471,9 @@ Load Solution::Route::delivery() const { return delivery_; }
 Load Solution::Route::pickup() const { return pickup_; }
 
 Load Solution::Route::excessLoad() const { return excessLoad_; }
+
+// @bmorlo
+Load Solution::Route::underUtilization() const { return underUtilization_; }
 
 Duration Solution::Route::duration() const { return duration_; }
 

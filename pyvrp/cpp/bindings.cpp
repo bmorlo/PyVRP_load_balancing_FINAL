@@ -344,6 +344,10 @@ PYBIND11_MODULE(_pyvrp, m)
         .def("excess_load",
              &Solution::Route::excessLoad,
              DOC(pyvrp, Solution, Route, excessLoad))
+             // @bmorlo
+        .def("underutilization",
+             &Solution::Route::underUtilization,
+             DOC(pyvrp, Solution, Route, underUtilization))     
         .def("duration",
              &Solution::Route::duration,
              DOC(pyvrp, Solution, Route, duration))
@@ -418,6 +422,8 @@ PYBIND11_MODULE(_pyvrp, m)
                                       route.delivery(),
                                       route.pickup(),
                                       route.excessLoad(),
+                                      // @bmorlo
+                                      route.underUtilization(),
                                       route.duration(),
                                       route.durationCost(),
                                       route.timeWarp(),
@@ -441,19 +447,21 @@ PYBIND11_MODULE(_pyvrp, m)
                     t[4].cast<pyvrp::Load>(),                 // delivery
                     t[5].cast<pyvrp::Load>(),                 // pickup
                     t[6].cast<pyvrp::Load>(),                 // excess load
-                    t[7].cast<pyvrp::Duration>(),             // duration
-                    t[8].cast<pyvrp::Cost>(),                 // duration cost
-                    t[9].cast<pyvrp::Duration>(),             // time warp
-                    t[10].cast<pyvrp::Duration>(),            // travel
-                    t[11].cast<pyvrp::Duration>(),            // service
-                    t[12].cast<pyvrp::Duration>(),            // wait
-                    t[13].cast<pyvrp::Duration>(),            // release
-                    t[14].cast<pyvrp::Duration>(),            // start time
-                    t[15].cast<pyvrp::Duration>(),            // slack
-                    t[16].cast<pyvrp::Cost>(),                // prizes
-                    t[17].cast<std::pair<double, double>>(),  // centroid
-                    t[18].cast<size_t>(),                     // vehicle type
-                    t[19].cast<size_t>());                    // depot
+                    // @bmorlo
+                    t[7].cast<pyvrp::Load>(),                 // underutilization
+                    t[8].cast<pyvrp::Duration>(),             // duration
+                    t[9].cast<pyvrp::Cost>(),                 // duration cost
+                    t[10].cast<pyvrp::Duration>(),             // time warp
+                    t[11].cast<pyvrp::Duration>(),            // travel
+                    t[12].cast<pyvrp::Duration>(),            // service
+                    t[13].cast<pyvrp::Duration>(),            // wait
+                    t[14].cast<pyvrp::Duration>(),            // release
+                    t[15].cast<pyvrp::Duration>(),            // start time
+                    t[16].cast<pyvrp::Duration>(),            // slack
+                    t[17].cast<pyvrp::Cost>(),                // prizes
+                    t[18].cast<std::pair<double, double>>(),  // centroid
+                    t[19].cast<size_t>(),                     // vehicle type
+                    t[20].cast<size_t>());                    // depot
 
                 return route;
             }))
@@ -521,7 +529,7 @@ PYBIND11_MODULE(_pyvrp, m)
              DOC(pyvrp, Solution, isComplete))
         .def("has_excess_load",
              &Solution::hasExcessLoad,
-             DOC(pyvrp, Solution, hasExcessLoad))
+             DOC(pyvrp, Solution, hasExcessLoad))    
         .def("has_excess_distance",
              &Solution::hasExcessDistance,
              DOC(pyvrp, Solution, hasExcessDistance))
@@ -539,6 +547,8 @@ PYBIND11_MODULE(_pyvrp, m)
         .def("excess_load",
              &Solution::excessLoad,
              DOC(pyvrp, Solution, excessLoad))
+          // @bmorlo
+        .def("underutilization", &Solution::underUtilization, DOC(pyvrp, Solution, underUtilization))
         .def("excess_distance",
              &Solution::excessDistance,
              DOC(pyvrp, Solution, excessDistance))
@@ -550,8 +560,6 @@ PYBIND11_MODULE(_pyvrp, m)
         .def("uncollected_prizes",
              &Solution::uncollectedPrizes,
              DOC(pyvrp, Solution, uncollectedPrizes))
-          // @bmorlo
-        .def("max_underutilization", &Solution::maxUnderutilization, DOC(pyvrp, Solution, maxUnderutilization))
         .def("__copy__", [](Solution const &sol) { return Solution(sol); })
         .def(
             "__deepcopy__",
@@ -571,11 +579,11 @@ PYBIND11_MODULE(_pyvrp, m)
                                       sol.durationCost(),
                                       sol.excessDistance(),
                                       sol.excessLoad(),
+                                      // @bmorlo
+                                      sol.underUtilization(),
                                       sol.fixedVehicleCost(),
                                       sol.prizes(),
                                       sol.uncollectedPrizes(),
-                                      // @bmorlo
-                                      sol.maxUnderutilization(),
                                       sol.timeWarp(),
                                       sol.isGroupFeasible(),
                                       sol.routes(),
@@ -593,13 +601,13 @@ PYBIND11_MODULE(_pyvrp, m)
                                t[3].cast<pyvrp::Cost>(),      // distance cost
                                t[4].cast<pyvrp::Duration>(),  // duration
                                t[5].cast<pyvrp::Cost>(),      // duration cost
-                               t[6].cast<pyvrp::Distance>(),  // excess distance
+                               t[6].cast<pyvrp::Distance>(),  // excess distanceCost
                                t[7].cast<pyvrp::Load>(),      // excess load
-                               t[8].cast<pyvrp::Cost>(),      // fixed veh cost
-                               t[9].cast<pyvrp::Cost>(),      // prizes
-                               t[10].cast<pyvrp::Cost>(),     // uncollected
                                // @bmorlo
-                               t[11].cast<pyvrp::Cost>(),     // maximum underutilization
+                               t[8].cast<pyvrp::Load>(),     // maximum underutilization
+                               t[9].cast<pyvrp::Cost>(),      // fixed veh cost
+                               t[10].cast<pyvrp::Cost>(),      // prizes
+                               t[11].cast<pyvrp::Cost>(),     // uncollected
                                t[12].cast<pyvrp::Duration>(),  // time warp
                                t[13].cast<bool>(),         // is group feasible
                                t[14].cast<Routes>(),       // routes
