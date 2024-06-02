@@ -249,9 +249,10 @@ bool CostEvaluator::deltaCost(Cost &out, T<Args...> const &proposal) const
     if constexpr (!skipLoad)
     {
         out -= loadPenalty(route->load(), route->capacity());
-        // @bmorlo
-        out -= underUtilizationPenalty(route->load(), route->capacity());
     }
+
+    // @bmorlo
+    out -= underUtilizationPenalty(route->load(), route->capacity());
 
     out -= route->durationCost();
     out -= twPenalty(route->timeWarp());
@@ -268,9 +269,11 @@ bool CostEvaluator::deltaCost(Cost &out, T<Args...> const &proposal) const
     {
         auto const load = proposal.loadSegment();
         out += loadPenalty(load.load(), route->capacity());
-        // @bmorlo
-        out += underUtilizationPenalty(load.load(), route->capacity());
     }
+
+    // @bmorlo
+    auto const load = proposal.loadSegment();
+    out += underUtilizationPenalty(load.load(), route->capacity());
 
     auto const duration = proposal.durationSegment();
     out += route->unitDurationCost() * static_cast<Cost>(duration.duration());
@@ -304,12 +307,12 @@ bool CostEvaluator::deltaCost(Cost &out,
     {
         out -= loadPenalty(uRoute->load(), uRoute->capacity());
         out -= loadPenalty(vRoute->load(), vRoute->capacity());
-
-        // @bmorlo
-        // TODO: Why do we subtract something from "out"?
-        out -= underUtilizationPenalty(uRoute->load(), uRoute->capacity());
-        out -= underUtilizationPenalty(vRoute->load(), vRoute->capacity());
     }
+
+    // @bmorlo
+    // TODO: Why do we subtract something from "out"?
+    out -= underUtilizationPenalty(uRoute->load(), uRoute->capacity());
+    out -= underUtilizationPenalty(vRoute->load(), vRoute->capacity());
 
     out -= uRoute->durationCost();
     out -= twPenalty(uRoute->timeWarp());
@@ -333,14 +336,16 @@ bool CostEvaluator::deltaCost(Cost &out,
     {
         auto const uLoad = uProposal.loadSegment();
         out += loadPenalty(uLoad.load(), uRoute->capacity());
-        // @bmorlo
-        out += underUtilizationPenalty(uLoad.load(), uRoute->capacity());
 
         auto const vLoad = vProposal.loadSegment();
         out += loadPenalty(vLoad.load(), vRoute->capacity());
-        // @bmorlo
-        out += underUtilizationPenalty(vLoad.load(), vRoute->capacity());
     }
+
+    // @bmorlo
+    auto const uLoad = uProposal.loadSegment();
+    out += underUtilizationPenalty(uLoad.load(), uRoute->capacity());
+    auto const vLoad = vProposal.loadSegment();
+    out += underUtilizationPenalty(vLoad.load(), vRoute->capacity());
 
     if constexpr (!exact)
         if (out >= 0)
