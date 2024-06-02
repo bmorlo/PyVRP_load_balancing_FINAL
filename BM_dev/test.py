@@ -27,7 +27,7 @@ m = Model()
 for k in range(3):
     depot_k = m.add_depot(x=COORDS[k][0], y=COORDS[k][1], name=f"{k}")
 
-    m.add_vehicle_type(num_available=1, capacity=7, depot=depot_k, )
+    m.add_vehicle_type(num_available=1, capacity=6, depot=depot_k, )
 
 clients = [
     m.add_client(x=COORDS[idx][0], y=COORDS[idx][1], delivery=1)
