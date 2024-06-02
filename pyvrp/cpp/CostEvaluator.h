@@ -213,7 +213,7 @@ Cost CostEvaluator::penalisedCost(T const &arg) const
                       + (!arg.empty() ? arg.fixedVehicleCost() : 0)
                       + loadPenalty(arg.excessLoad(), 0)
                       // @bmorlo
-                      + underUtilizationPenalty(arg.underUtilization(), 7)
+                      + underUtilizationPenalty(0, arg.underUtilization())
                       + twPenalty(arg.timeWarp())
                       + distPenalty(arg.excessDistance(), 0);
 
@@ -312,6 +312,8 @@ bool CostEvaluator::deltaCost(Cost &out,
     // TODO: Why do we subtract something from "out"?
     out -= underUtilizationPenalty(uRoute->load(), uRoute->capacity());
     out -= underUtilizationPenalty(vRoute->load(), vRoute->capacity());
+
+    std::out << "\ndeltaCost was called!\n"
 
     out -= uRoute->durationCost();
     out -= twPenalty(uRoute->timeWarp());
