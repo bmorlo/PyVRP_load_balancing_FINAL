@@ -186,7 +186,7 @@ Cost CostEvaluator::loadPenalty(Load load, Load capacity) const
 Cost CostEvaluator::underUtilizationPenalty(Load load, Load capacity) const
 {
     // The underutilization should be zero if the solution is feasible!
-    if (load < capacity - static_cast<Load>(2))
+    if (load < capacity - static_cast<Load>(1))
     {
         auto const underUtilization_ = capacity - load;
         return static_cast<Cost>(underUtilization_) * loadPenalty_;
