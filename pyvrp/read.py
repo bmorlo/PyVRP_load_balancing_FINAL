@@ -117,6 +117,7 @@ def read(
         max_duration = round_func(np.array([max_duration])).item()
 
     max_distance: int = instance.get("vehicles_max_distance", _INT_MAX)
+    
     if max_distance != _INT_MAX:
         max_distance = round_func(np.array([max_distance])).item()
 
@@ -206,6 +207,9 @@ def read(
         indices, starting from 1.
         """
         raise ValueError(msg)
+    
+    # @bmorlo
+    print(f"\n\n\nMaximum distance in the dataset: {distances.max()}\n\n\n")
 
     if max(distances.max(), durations.max()) > MAX_VALUE:
         msg = """
