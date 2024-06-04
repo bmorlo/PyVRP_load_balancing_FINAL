@@ -549,6 +549,8 @@ PYBIND11_MODULE(_pyvrp, m)
              DOC(pyvrp, Solution, excessLoad))
           // @bmorlo
         .def("underutilization", &Solution::underUtilization, DOC(pyvrp, Solution, underUtilization))
+        // @bmorlo
+        .def("min_load", &Solution::minLoad, DOC(pyvrp, Solution, minLoad))
         .def("excess_distance",
              &Solution::excessDistance,
              DOC(pyvrp, Solution, excessDistance))
@@ -581,6 +583,7 @@ PYBIND11_MODULE(_pyvrp, m)
                                       sol.excessLoad(),
                                       // @bmorlo
                                       sol.underUtilization(),
+                                      sol.minLoad(),
                                       sol.fixedVehicleCost(),
                                       sol.prizes(),
                                       sol.uncollectedPrizes(),
@@ -605,13 +608,15 @@ PYBIND11_MODULE(_pyvrp, m)
                                t[7].cast<pyvrp::Load>(),      // excess load
                                // @bmorlo
                                t[8].cast<pyvrp::Load>(),     // maximum underutilization
-                               t[9].cast<pyvrp::Cost>(),      // fixed veh cost
-                               t[10].cast<pyvrp::Cost>(),      // prizes
-                               t[11].cast<pyvrp::Cost>(),     // uncollected
-                               t[12].cast<pyvrp::Duration>(),  // time warp
-                               t[13].cast<bool>(),         // is group feasible
-                               t[14].cast<Routes>(),       // routes
-                               t[15].cast<Neighbours>());  // neighbours
+                               // @bmorlo
+                               t[9].cast<pyvrp::Load>(),     // minimum load
+                               t[10].cast<pyvrp::Cost>(),      // fixed veh cost
+                               t[11].cast<pyvrp::Cost>(),      // prizes
+                               t[12].cast<pyvrp::Cost>(),     // uncollected
+                               t[13].cast<pyvrp::Duration>(),  // time warp
+                               t[14].cast<bool>(),         // is group feasible
+                               t[15].cast<Routes>(),       // routes
+                               t[16].cast<Neighbours>());  // neighbours
 
                 return sol;
             }))

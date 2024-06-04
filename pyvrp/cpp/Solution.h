@@ -266,6 +266,8 @@ private:
     Load excessLoad_ = 0;           // Total excess load over all routes
     // @bmorlo
     Load underUtilization_ = 0;     // Maximum underutilization found in one of the routes
+    // @bmorlo
+    Load minLoad_ = 0;              // Minimum load found in one of the routes
     Cost fixedVehicleCost_ = 0;     // Fixed cost of all used vehicles
     Cost prizes_ = 0;               // Total collected prize value
     Cost uncollectedPrizes_ = 0;    // Total uncollected prize value
@@ -394,9 +396,15 @@ public:
 
      // @bmorlo
     /**
-     * Returns the minimum utilization found in one of the routes.
+     * Returns the maximum underutilization found in one of the routes.
      */
     [[nodiscard]] Load underUtilization() const;
+
+    // @bmorlo
+    /**
+     * Returns the minimum load (utilization) found in one of the routes.
+     */
+    [[nodiscard]] Load minLoad() const;
 
     /**
      * Returns the total distance in excess of maximum duration constraints,
@@ -477,6 +485,8 @@ public:
              Load excessLoad,
              // @bmorlo
              Load underUtilization,
+             // @bmorlo
+             Load minLoad,
              Cost fixedVehicleCost,
              Cost prizes,
              Cost uncollectedPrizes,
