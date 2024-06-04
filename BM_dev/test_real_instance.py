@@ -11,8 +11,8 @@ from pyvrp.plotting import (
 )
 from pyvrp.stop import MaxIterations, MaxRuntime
 
-INSTANCE = read("BM_instances/X-n186-k15_C13_unit-demand.vrp", round_func="round")
-BKS = read_solution("BM_instances/X-n186-k15_C13_unit-demand.sol")
+INSTANCE = read("BM_dev/BM_instances/X-n186-k15_C13_unit-demand.vrp", round_func="round")
+BKS = read_solution("BM_dev/BM_instances/X-n186-k15_C13_unit-demand.sol")
 
 model = Model.from_data(INSTANCE)
 result = model.solve(stop=MaxIterations(2000), seed=42, display=True)
