@@ -1,5 +1,6 @@
 from pyvrp import Model
-from pyvrp.stop import NoImprovement
+from pyvrp.stop import NoImprovement, MaxIterations, MaxRuntime
+from vrplib import read_solution
 
 COORDS = [
     (456, 320),  # location 0 - depot 1
