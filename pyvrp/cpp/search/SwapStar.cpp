@@ -182,13 +182,25 @@ Cost SwapStar::evaluate(Route *routeU,
 
             deltaCost += costEvaluator.loadPenalty(routeU->load() - loadDiff,
                                                    routeU->capacity());
+            // @bmorlo
+            deltaCost += costEvaluator.underUtilizationPenalty(routeU->load() - loadDiff,
+                                                                routeU->capacity());                               
             deltaCost -= costEvaluator.loadPenalty(routeU->load(),
                                                    routeU->capacity());
+            // @bmorlo
+            deltaCost -= costEvaluator.underUtilizationPenalty(routeU->load(),
+                                                                routeU->capacity());
 
             deltaCost += costEvaluator.loadPenalty(routeV->load() + loadDiff,
                                                    routeV->capacity());
+            // @bmorlo
+            deltaCost += costEvaluator.underUtilizationPenalty(routeV->load() + loadDiff,
+                                                                routeV->capacity());
             deltaCost -= costEvaluator.loadPenalty(routeV->load(),
                                                    routeV->capacity());
+            // @bmorlo
+            deltaCost -= costEvaluator.underUtilizationPenalty(routeV->load(),
+                                                                routeV->capacity());
 
             deltaCost += removalCosts(routeU->idx(), U->client());
             deltaCost += removalCosts(routeV->idx(), V->client());

@@ -1,5 +1,5 @@
 from pyvrp import Model
-from pyvrp.stop import MaxRuntime
+from pyvrp.stop import NoImprovement
 
 COORDS = [
     (456, 320),  # location 0 - depot 1
@@ -40,7 +40,7 @@ for frm_idx, frm in enumerate(m.locations):
         m.add_edge(frm, to, distance=distance)
 
 res = m.solve(
-    stop=MaxRuntime(10), seed=42, display=True, collect_stats=True
+    stop=NoImprovement(10000), seed=42, display=True, collect_stats=True
 )
 
 print(res)
