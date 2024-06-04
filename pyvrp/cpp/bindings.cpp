@@ -448,7 +448,7 @@ PYBIND11_MODULE(_pyvrp, m)
                     t[5].cast<pyvrp::Load>(),                 // pickup
                     t[6].cast<pyvrp::Load>(),                 // excess load
                     // @bmorlo
-                    t[7].cast<pyvrp::Load>(),                 // underutilization
+                    t[7].cast<pyvrp::Load>(),                 // underutilization (gap between target load and actual load)
                     t[8].cast<pyvrp::Duration>(),             // duration
                     t[9].cast<pyvrp::Cost>(),                 // duration cost
                     t[10].cast<pyvrp::Duration>(),             // time warp
@@ -608,7 +608,7 @@ PYBIND11_MODULE(_pyvrp, m)
                                t[6].cast<pyvrp::Distance>(),  // excess distanceCost
                                t[7].cast<pyvrp::Load>(),      // excess load
                                // @bmorlo
-                               t[8].cast<pyvrp::Load>(),     // maximum underutilization
+                               t[8].cast<pyvrp::Load>(),     // maximum underutilization (maximum gap between target load and actual load)
                                // @bmorlo
                                t[9].cast<pyvrp::Load>(),     // minimum load
                                t[10].cast<pyvrp::Cost>(),      // fixed veh cost

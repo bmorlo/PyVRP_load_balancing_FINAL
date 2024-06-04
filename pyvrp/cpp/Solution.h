@@ -59,7 +59,7 @@ public:
         Load pickup_ = 0;               // Total pickup amount gathered on this route
         Load excessLoad_ = 0;           // Excess pickup or delivery demand
         // @bmorlo
-        Load underUtilization_ = 0;     // Underutilization of a route
+        Load underUtilization_ = 0;     // Underutilization of a route (gap between target load and actual load)
         Duration duration_ = 0;         // Total duration of this route
         Cost durationCost_ = 0;         // Total cost of route duration
         Duration timeWarp_ = 0;         // Total time warp on this route
@@ -119,7 +119,7 @@ public:
 
         // @bmorlo
         /**
-         * Underutilization of the vehicle's capacity.
+         * Underutilization of a route (gap between target load and actual load)
          */
         [[nodiscard]] Load underUtilization() const;
 
@@ -396,7 +396,7 @@ public:
 
      // @bmorlo
     /**
-     * Returns the maximum underutilization found in one of the routes.
+     * Returns the maximum underutilization (gap between target load and actual load) found in one of the routes.
      */
     [[nodiscard]] Load underUtilization() const;
 

@@ -273,8 +273,7 @@ public:
 
     // @bmorlo
     /**
-     * Underutilization of the
-     * vehicle's capacity.
+     * Underutilization of a route (gap between target load and actual load)
      */
     [[nodiscard]] inline Load underUtilization() const;
 
@@ -630,7 +629,16 @@ Load Route::excessLoad() const
 Load Route::underUtilization() const
 {
     assert(!dirty);
-    return std::max<Load>(capacity() - load(), 0);
+    if (load() < capacity() - static_cast<Load>(1))
+    {
+        // This is the actual underutilization.
+        return capacity() - static_cast<Load>(1) - load();
+    }
+    else
+    {
+        // The underutilization should be zero if the solution is feasible aka there is no underutilization!
+        return static_cast<Load>(0);
+    }
 }
 
 Distance Route::excessDistance() const
