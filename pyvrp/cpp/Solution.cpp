@@ -28,7 +28,6 @@ void Solution::evaluate(ProblemData const &data)
     for (auto const &client : data.clients())
         allPrizes += client.prize;
 
-    // @bmorlo
     for (auto const &route : routes_)
     {
         // Whole solution statistics.
@@ -76,7 +75,7 @@ bool Solution::isFeasible() const
     // clang-format off
     return !hasExcessLoad()
     // @bmorlo. Using underUtilization() + minLoad() gets us back to the capacity value that was used in the "minLoad"-route
-        && (minLoad() >= std::max<Load>(underUtilization() + minLoad() - static_cast<Load>(2), 1))
+        && (minLoad() >= std::max<Load>(underUtilization() + minLoad() - static_cast<Load>(5), 1))
         && !hasTimeWarp()
         && !hasExcessDistance()
         && isComplete()
@@ -527,7 +526,7 @@ size_t Solution::Route::depot() const { return depot_; }
 bool Solution::Route::isFeasible() const
 {
     // @bmorlo. Adding back the delivery() to the underUtilization() gets us back to the capacity().
-    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery() - static_cast<Load>(2), 1)) 
+    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery() - static_cast<Load>(5), 1)) 
         && !hasTimeWarp() 
         && !hasExcessDistance();
 }

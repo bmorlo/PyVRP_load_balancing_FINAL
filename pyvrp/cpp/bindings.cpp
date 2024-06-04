@@ -583,6 +583,7 @@ PYBIND11_MODULE(_pyvrp, m)
                                       sol.excessLoad(),
                                       // @bmorlo
                                       sol.underUtilization(),
+                                      // @bmorlo
                                       sol.minLoad(),
                                       sol.fixedVehicleCost(),
                                       sol.prizes(),
