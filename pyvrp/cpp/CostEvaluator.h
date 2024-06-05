@@ -186,16 +186,8 @@ Cost CostEvaluator::loadPenalty(Load load, Load capacity) const
 Cost CostEvaluator::underUtilizationPenalty(Load load, Load capacity) const
 {
     // The underutilization should be zero if the solution is feasible!
-    if (load < capacity - static_cast<Load>(2))
-    {
-        auto const underUtilization_ = capacity - load;
-        return static_cast<Cost>(underUtilization_) * loadPenalty_;
-    }
-    else
-    {
-        auto const underUtilization_ = static_cast<Load>(0);
-        return static_cast<Cost>(underUtilization_) * loadPenalty_;
-    }
+    auto const underUtilization_ = std::max(capacity - static_cast<Load>(2) - load, 0);
+    return static_cast<Cost>(underUtilization_) * loadPenalty_ * static_cast<Load>(2);
 }
 
 Cost CostEvaluator::twPenalty([[maybe_unused]] Duration timeWarp) const

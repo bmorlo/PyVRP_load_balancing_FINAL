@@ -44,12 +44,12 @@ void Solution::evaluate(ProblemData const &data)
         // @bmorlo
         // Stores the maximum underutilization found in one of the routes.
         // We keep the name consistent with the 'Route' object even though here (for the 'Solution' object) it should be maxUnderutilization...
-        if ((data.vehicleType(route.vehicleType()).capacity - route.delivery()) > underUtilization_)
+        if (std::max(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(2) - route.delivery(), 0) >= underUtilization_)
         {
             // Update the maximum underutilization of the solution.
-            underUtilization_ = data.vehicleType(route.vehicleType()).capacity - route.delivery();
+            underUtilization_ = std::max(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(2) - route.delivery(), 0);
             // Also, update the minimum load found in one of the solution's routes.
-            minLoad_ = route.delivery();
+            //minLoad_ = route.delivery();
         }
 
         fixedVehicleCost_ += data.vehicleType(route.vehicleType()).fixedCost;
@@ -75,7 +75,7 @@ bool Solution::isFeasible() const
     // clang-format off
     return !hasExcessLoad()
     // @bmorlo. Using underUtilization() + minLoad() gets us back to the capacity value that was used in the "minLoad"-route
-        && (minLoad() >= std::max<Load>(underUtilization() + minLoad() - static_cast<Load>(2), 1))
+        && (underUtilization() == static_cast<Load>(0))
         && !hasTimeWarp()
         && !hasExcessDistance()
         && isComplete()
@@ -398,7 +398,7 @@ Solution::Route::Route(ProblemData const &data,
     pickup_ = ls.pickup();
     excessLoad_ = std::max<Load>(ls.load() - vehType.capacity, 0);
     //@bmorlo
-    underUtilization_ = std::max<Load>(vehType.capacity - ls.load(), 0);
+    underUtilization_ = std::max<Load>(vehType.capacity - static_cast<Load>(2) - ls.load(), 0);
 
     ds = DurationSegment::merge(durations, ds, depotDS);
     duration_ = ds.duration();
@@ -525,8 +525,8 @@ size_t Solution::Route::depot() const { return depot_; }
 
 bool Solution::Route::isFeasible() const
 {
-    // @bmorlo. Adding back the delivery() to the underUtilization() gets us back to the capacity().
-    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery() - static_cast<Load>(2), 1)) 
+    // @bmorlo.
+    return !hasExcessLoad() && (underUtilization() == static_cast<Load>(0)) 
         && !hasTimeWarp() 
         && !hasExcessDistance();
 }
