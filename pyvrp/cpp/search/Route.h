@@ -576,7 +576,7 @@ bool Route::isFeasible() const
     // @bmorlo
     assert(!dirty);
     // return !hasExcessLoad() && (underUtilization() == static_cast<Load>(0)) && !hasTimeWarp() && !hasExcessDistance();
-    return !hasExcessLoad() && (load() >= std::max<Load>(capacity() - static_cast<Load>(1), 1)) && !hasTimeWarp() && !hasExcessDistance();
+    return !hasExcessLoad() && (load() >= capacity() - static_cast<Load>(1)) && !hasTimeWarp() && !hasExcessDistance();
 }
 
 bool Route::hasExcessLoad() const

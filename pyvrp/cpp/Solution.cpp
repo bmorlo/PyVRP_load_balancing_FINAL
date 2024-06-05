@@ -84,7 +84,7 @@ bool Solution::isFeasible() const
     return !hasExcessLoad()
     // @bmorlo
         //&& (underUtilization() == static_cast<Load>(0))
-        && (minLoad() >= std::max<Load>(underUtilization() + minLoad(), 1))
+        && (minLoad() >= underUtilization() + minLoad())
         && !hasTimeWarp()
         && !hasExcessDistance()
         && isComplete()
@@ -538,7 +538,7 @@ bool Solution::Route::isFeasible() const
     // @bmorlo
     // underUtilization() + delivery() defines the target load that we would like to have.
     //return !hasExcessLoad() && (underUtilization() == static_cast<Load>(0))
-    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery(), 1))
+    return !hasExcessLoad() && (delivery() >= underUtilization() + delivery())
         && !hasTimeWarp() 
         && !hasExcessDistance();
 }
