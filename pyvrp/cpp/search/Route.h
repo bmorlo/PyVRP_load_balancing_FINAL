@@ -632,7 +632,7 @@ Load Route::underUtilization() const
     assert(!dirty);
     if (load() < capacity() - static_cast<Load>(2))
     {
-        return capacity() - static_cast<Load>(2) - load();
+        return capacity() - load();
     }
     else
     {
