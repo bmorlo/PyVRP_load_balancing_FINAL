@@ -49,7 +49,7 @@ void Solution::evaluate(ProblemData const &data)
             // Update the maximum underutilization of the solution.
             underUtilization_ = std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0);
             // Also, update the minimum load found in one of the solution's routes.
-            minLoad_ = route.delivery();
+            // minLoad_ = route.delivery();
         }
 
         fixedVehicleCost_ += data.vehicleType(route.vehicleType()).fixedCost;
@@ -75,8 +75,7 @@ bool Solution::isFeasible() const
     // clang-format off
     return !hasExcessLoad()
     // @bmorlo
-    // underUtilization() + minLoad() defines the target load that we would like to have.
-        && (minLoad() >= std::max<Load>(underUtilization() + minLoad(), 1))
+        && (underUtilization() == static_cast<Load>(0))
         && !hasTimeWarp()
         && !hasExcessDistance()
         && isComplete()
@@ -529,7 +528,7 @@ bool Solution::Route::isFeasible() const
 {
     // @bmorlo
     // underUtilization() + delivery() defines the target load that we would like to have.
-    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery(), 1))
+    return !hasExcessLoad() && (underUtilization() == static_cast<Load>(0))
         && !hasTimeWarp() 
         && !hasExcessDistance();
 }

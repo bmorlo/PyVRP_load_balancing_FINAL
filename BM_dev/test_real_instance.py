@@ -15,5 +15,5 @@ INSTANCE = read("BM_dev/BM_instances/X-n186-k15_C13_unit-demand.vrp", round_func
 BKS = read_solution("BM_dev/BM_instances/X-n186-k15_C13_unit-demand.sol")
 
 model = Model.from_data(INSTANCE)
-result = model.solve(stop=MaxIterations(10000), seed=12, display=True)
+result = model.solve(stop=MaxIterations(5000), seed=42, display=True)
 print(result)
