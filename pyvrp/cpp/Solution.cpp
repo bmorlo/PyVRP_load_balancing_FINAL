@@ -44,7 +44,7 @@ void Solution::evaluate(ProblemData const &data)
         // @bmorlo
         // Stores the maximum underutilization found in one of the routes.
         // We keep the name consistent with the 'Route' object even though here (for the 'Solution' object) it should be maxUnderutilization...
-        if ((data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(2) - route.delivery()) > underUtilization_)
+        if ((data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(2) - route.delivery()) >= underUtilization_)
         {
             // Update the maximum underutilization of the solution.
             underUtilization_ = data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(2) - route.delivery();
