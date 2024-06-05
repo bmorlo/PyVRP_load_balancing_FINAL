@@ -81,7 +81,7 @@ bool Solution::isFeasible() const
     // clang-format off
     return !hasExcessLoad()
     // @bmorlo. Using underUtilization() + minLoad() gets us back to the capacity value that was used in the "minLoad"-route
-        && (minLoad() >= std::max<Load>(underUtilization() + minLoad(), 1))
+        && (underUtilization() == static_cast<Load>(0))
         && !hasTimeWarp()
         && !hasExcessDistance()
         && isComplete()
