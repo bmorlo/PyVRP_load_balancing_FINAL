@@ -185,7 +185,7 @@ Cost CostEvaluator::loadPenalty(Load load, Load capacity) const
 // @bmorlo
 Cost CostEvaluator::underUtilizationPenalty(Load load, Load capacity) const
 {
-    auto const underUtilization_ = std::max<Load>(capacity - static_cast<Load>(1) - load, 0);
+    auto const underUtilization_ = std::max<Load>(capacity - static_cast<Load>(2) - load, 0);
     return static_cast<Cost>(underUtilization_) * loadPenalty_;
 }
 

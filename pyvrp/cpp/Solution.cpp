@@ -44,10 +44,10 @@ void Solution::evaluate(ProblemData const &data)
         // @bmorlo
         // Stores the maximum underutilization found in one of the routes.
         // We keep the name consistent with the 'Route' object even though here (for the 'Solution' object) it should be maxUnderutilization...
-        if (std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0) >= underUtilization_)
+        if (std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(2) - route.delivery(), 0) >= underUtilization_)
         {
             // Update the maximum underutilization of the solution.
-            underUtilization_ = std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0);
+            underUtilization_ = std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(2) - route.delivery(), 0);
             // Also, update the minimum load found in one of the solution's routes.
             // minLoad_ = route.delivery();
         }
@@ -399,7 +399,7 @@ Solution::Route::Route(ProblemData const &data,
     excessLoad_ = std::max<Load>(ls.load() - vehType.capacity, 0);
 
     //@bmorlo
-    underUtilization_ = std::max<Load>(vehType.capacity - static_cast<Load>(1) - ls.load(), 0);
+    underUtilization_ = std::max<Load>(vehType.capacity - static_cast<Load>(2) - ls.load(), 0);
 
     ds = DurationSegment::merge(durations, ds, depotDS);
     duration_ = ds.duration();

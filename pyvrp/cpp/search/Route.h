@@ -629,7 +629,7 @@ Load Route::excessLoad() const
 Load Route::underUtilization() const
 {
     assert(!dirty);
-    return std::max<Load>(capacity() - static_cast<Load>(1) - load(), 0);
+    return std::max<Load>(capacity() - static_cast<Load>(2) - load(), 0);
 }
 
 Distance Route::excessDistance() const
