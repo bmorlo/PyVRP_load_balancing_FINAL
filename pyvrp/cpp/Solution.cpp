@@ -44,10 +44,18 @@ void Solution::evaluate(ProblemData const &data)
         // @bmorlo
         // Stores the maximum underutilization found in one of the routes.
         // We keep the name consistent with the 'Route' object even though here (for the 'Solution' object) it should be maxUnderutilization...
-        if (std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0) >= underUtilization_)
+        //if (std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0) >= underUtilization_)
+        //{
+        //    // Update the maximum underutilization of the solution.
+        //    underUtilization_ = std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0);
+        //    // Also, update the minimum load found in one of the solution's routes.
+        //    minLoad_ = route.delivery();
+        //}
+
+        if ((data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery()) > underUtilization_)
         {
             // Update the maximum underutilization of the solution.
-            underUtilization_ = std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0);
+            underUtilization_ = data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery();
             // Also, update the minimum load found in one of the solution's routes.
             minLoad_ = route.delivery();
         }
