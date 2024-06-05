@@ -538,7 +538,7 @@ bool Solution::Route::isFeasible() const
     // @bmorlo
     // underUtilization() + delivery() defines the target load that we would like to have.
     //return !hasExcessLoad() && (underUtilization() == static_cast<Load>(0))
-    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery() - static_cast<Load>(1), 1))
+    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery(), 1))
         && !hasTimeWarp() 
         && !hasExcessDistance();
 }
