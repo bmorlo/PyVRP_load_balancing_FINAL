@@ -41,14 +41,13 @@ void Solution::evaluate(ProblemData const &data)
         timeWarp_ += route.timeWarp();
         excessLoad_ += route.excessLoad();
 
-        std::max<Load>(underUtilization() + minLoad() - static_cast<Load>(1), 1))
         // @bmorlo
         // Stores the maximum underutilization found in one of the routes.
         // We keep the name consistent with the 'Route' object even though here (for the 'Solution' object) it should be maxUnderutilization...
-        if ((std::max(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1), 1) - route.delivery()) >= underUtilization_)
+        if ((std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1), 1) - route.delivery()) >= underUtilization_)
         {
             // Update the maximum underutilization of the solution.
-            underUtilization_ = std::max(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1), 1) - route.delivery();
+            underUtilization_ = std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1), 1) - route.delivery();
             // Also, update the minimum load found in one of the solution's routes.
             minLoad_ = route.delivery();
         }
@@ -538,7 +537,7 @@ bool Solution::Route::isFeasible() const
 {
     // @bmorlo
     // Adding back the delivery() to the underUtilization() gets us back to the capacity().
-    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery() - static_cast<Load>(1), 1)) 
+    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery() - static_cast<Load>(1), 1))
         && !hasTimeWarp() 
         && !hasExcessDistance();
 }
