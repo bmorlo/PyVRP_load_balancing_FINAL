@@ -575,7 +575,7 @@ Route::ProxyBetween::operator LoadSegment() const
 bool Route::isFeasible() const
 {
     assert(!dirty);
-    return !hasExcessLoad() && (load() >= std::max<Load>(capacity() - static_cast<Load>(2), 1)) && !hasTimeWarp() && !hasExcessDistance();
+    return !hasExcessLoad() && (underUtilization() == 0) && !hasTimeWarp() && !hasExcessDistance();
 }
 
 bool Route::hasExcessLoad() const
