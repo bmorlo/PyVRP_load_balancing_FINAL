@@ -74,8 +74,9 @@ bool Solution::isFeasible() const
 {
     // clang-format off
     return !hasExcessLoad()
-    // @bmorlo. Using underUtilization() + minLoad() gets us back to the capacity value that was used in the "minLoad"-route
-        && (minLoad() >= std::max<Load>(underUtilization() + minLoad() - static_cast<Load>(1), 1))
+    // @bmorlo
+    // underUtilization() + minLoad() defines the target load that we would like to have.
+        && (minLoad() >= std::max<Load>(underUtilization() + minLoad(), 1))
         && !hasTimeWarp()
         && !hasExcessDistance()
         && isComplete()
@@ -399,7 +400,7 @@ Solution::Route::Route(ProblemData const &data,
     excessLoad_ = std::max<Load>(ls.load() - vehType.capacity, 0);
 
     //@bmorlo
-    underUtilization_ = std::max<Load>(vehType.capacity - static_cast<Load>(1) - delivery_, 0);
+    underUtilization_ = std::max<Load>(vehType.capacity - static_cast<Load>(1) - ls.load(), 0);
 
     ds = DurationSegment::merge(durations, ds, depotDS);
     duration_ = ds.duration();
@@ -527,8 +528,8 @@ size_t Solution::Route::depot() const { return depot_; }
 bool Solution::Route::isFeasible() const
 {
     // @bmorlo
-    // Adding back the delivery() to the underUtilization() gets us back to the capacity().
-    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery() - static_cast<Load>(1), 1))
+    // underUtilization() + delivery() defines the target load that we would like to have.
+    return !hasExcessLoad() && (delivery() >= std::max<Load>(underUtilization() + delivery(), 1))
         && !hasTimeWarp() 
         && !hasExcessDistance();
 }
