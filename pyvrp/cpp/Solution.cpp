@@ -44,10 +44,10 @@ void Solution::evaluate(ProblemData const &data)
         // @bmorlo
         // Stores the maximum underutilization found in one of the routes.
         // We keep the name consistent with the 'Route' object even though here (for the 'Solution' object) it should be maxUnderutilization...
-        if ((std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1), 1) - route.delivery()) >= underUtilization_)
+        if (std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0) >= underUtilization_)
         {
             // Update the maximum underutilization of the solution.
-            underUtilization_ = std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1), 1) - route.delivery();
+            underUtilization_ = std::max<Load>(data.vehicleType(route.vehicleType()).capacity - static_cast<Load>(1) - route.delivery(), 0);
             // Also, update the minimum load found in one of the solution's routes.
             minLoad_ = route.delivery();
         }
@@ -399,16 +399,7 @@ Solution::Route::Route(ProblemData const &data,
     excessLoad_ = std::max<Load>(ls.load() - vehType.capacity, 0);
 
     //@bmorlo
-    if (delivery_ < vehType.capacity - static_cast<Load>(1))
-    {
-        // This is the actual underutilization.
-        underUtilization_ = vehType.capacity - static_cast<Load>(1) - delivery_;
-    }
-    else
-    {
-        // The underutilization should be zero if the solution is feasible aka there is no underutilization!
-        underUtilization_ = static_cast<Load>(0);
-    }
+    underUtilization_ = std::max<Load>(vehType.capacity - static_cast<Load>(1) - delivery_, 0);
 
     ds = DurationSegment::merge(durations, ds, depotDS);
     duration_ = ds.duration();

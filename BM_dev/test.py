@@ -25,7 +25,7 @@ m = Model()
 
 
 depot_k = m.add_depot(x=COORDS[0][0], y=COORDS[0][1])
-m.add_vehicle_type(num_available=15, capacity=1, depot=depot_k)
+m.add_vehicle_type(num_available=8, capacity=2, depot=depot_k)
 
 clients = [
     m.add_client(x=COORDS[idx][0], y=COORDS[idx][1], delivery=1)
