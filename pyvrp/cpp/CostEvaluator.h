@@ -189,7 +189,7 @@ Cost CostEvaluator::underUtilizationPenalty(Load load, Load capacity) const
     {
         // With this, we now penalize correctly only the gap between load and (capacity - 1).
         // This is the actual underutilization.
-        auto const underUtilization_ = (capacity - static_cast<Load>(1)) - load;
+        auto const underUtilization_ = capacity - static_cast<Load>(1) - load;
         return static_cast<Cost>(underUtilization_) * loadPenalty_;
     }
     else
